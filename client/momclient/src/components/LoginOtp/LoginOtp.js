@@ -26,7 +26,8 @@ const LoginOtp = () => {
 
   const responseGoogle = async (authResult) => {
     try {
-      if (authResult['code']) {
+      if (authResult['code']) { 
+        //something added
         const result = await googleAuth(authResult['code']);
         
         if (result.data.success) {        
