@@ -1,0 +1,65 @@
+h3{
+    margin-top: 50px;
+}
+/* .css-aeueu6-MuiDrawer-docked{
+    width: 120px !important;
+} */
+.table-header{
+    margin-top: 25px;
+}
+.Mom-btn{
+    background-color: #5522b2;
+    color: #fff;
+    border: none;
+    padding: 5px 30px;
+}
+.MuiBox-root.css-zxdg2z{
+    padding: 24px 0 24px 0;
+}
+.css-15r83f5{
+    text-align: left !important;
+}
+.css-1it4a80-MuiTypography-root{
+    font-weight: 700 !important;
+    font-size: 25px !important;
+    margin-bottom: 20px !important;
+}
+.MuiBox-root.css-k008qs{
+    width: 100%;
+}
+::placeholder{
+    font-size: 15px;
+}
+.tbl-text-search{
+    margin-bottom: 30px;
+}
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    margin: auto;
+  }
+  
+  .search-box input {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .search-box input:focus {
+    border-color: #4F2CC8;
+  }
+  
+  .search-box .search-icon {
+    position: absolute;
+    left: 10px; 
+    pointer-events: none;
+  }
+  .css-17jyosd-MuiSwitch-thumb {
+    background-color: rgb(102 213 208) !important;
+  }

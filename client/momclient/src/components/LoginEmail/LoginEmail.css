@@ -1,0 +1,9 @@
+.login-form .logo img{
+    height: 65px;
+    margin-bottom: 15px;
+}
+.forgot-btn{
+    background-color: transparent;
+    border: 1px solid rgba(137, 43, 226, .685);
+    color: #6a6565;
+}

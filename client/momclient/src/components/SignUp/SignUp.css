@@ -1,0 +1,19 @@
+.MuiButton-containedPrimary {
+    background-color: #5522b2 !important;
+    border: none;
+}
+.css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed, .css-3hpdci-MuiSvgIcon-root-MuiStepIcon-root.Mui-active {
+    color: #5522b2 !important;
+}
+.getotp-btn{
+    border-radius: 4px 4px !important;
+    color: #fff !important;
+    cursor: pointer;
+    font-size: .75em !important;
+    padding: .3em .65em !important;
+    position: absolute;
+    background-color: #5522b2 !important;
+}
+.css-er619e-MuiFormHelperText-root{
+    color: red !important;
+}

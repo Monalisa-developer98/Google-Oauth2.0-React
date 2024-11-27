@@ -1,0 +1,98 @@
+.login-form{
+    width: 40%;
+}
+.form-container{
+    width: 100%;
+}
+.MuiFormControl-root{
+    width: 100% !important;
+}
+span{
+    color: red;
+}
+.heading-text{
+    margin-bottom: 40px;
+    color: #000;
+    font-size: 18px;
+    font-family: cursive;
+}
+.signin-btn1 {
+    padding: 7px 10px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: #5522b2;
+    color: #fff;
+    border: none;
+    font-size: 14px;
+}
+.or {
+    text-align: center;
+    position: relative;
+    color: gray;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.or-2:after, .or-2:before {
+    width: 36% !important;
+}
+.or:before {
+    content: "";
+    height: 1px;
+    width: 45%;
+    position: absolute;
+    background-color: #6464644f;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+.or:after {
+    content: "";
+    height: 1px;
+    width: 45%;
+    position: absolute;
+    background-color: #6464644f;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+.signin-btn2{
+    padding: 7px 10px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 1px solid rgba(137, 43, 226, .685);
+    color: #8a2be2;
+    font-size: 14px;
+}
+.set-pwd{
+    text-align: center;
+    font-size: 14px;
+    margin: 20px 0;
+    color: gray;
+}
+.set-pwd a {
+    color: gray;
+    text-decoration: underline;
+}
+.login-image img {
+    width: 600px;
+    height: 550px;
+}
+.login-form .logo img{
+    height: 65px;
+    margin-bottom: 15px;
+}
+.google-signin-btn {
+    border: none;
+    padding: 0px 14px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: 1px solid #aaa7a7;
+    margin: 15px 0 0 0;
+    box-shadow: 0 1px 1px 0 #091e4240, 0 0 1px 0 #091e424f;
+    width: 100%;
+}

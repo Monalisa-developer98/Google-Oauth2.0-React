@@ -1,0 +1,14 @@
+.username{
+    color: #fff;
+    font-size: 20px;
+    margin: 10px;
+}
+.logout-btn{
+    background-color: #bd37b2;
+    color: #fff;
+}
+.profile-pic{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
