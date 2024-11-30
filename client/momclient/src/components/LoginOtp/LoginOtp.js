@@ -35,6 +35,7 @@ const LoginOtp = () => {
           localStorage.setItem('auth-token', token);
         // Update user context here
         const { role, name, profilePicture } = result.data.data.user;
+        // console.log('User Profile Picture-----:', profilePicture);
         
         login({ token, username: name, role: role, picture: profilePicture });
         role === 'admin' ? navigate('/admin-dashboard') : role === 'user' ? navigate('/user-dashboard') : alert('Invalid role');
