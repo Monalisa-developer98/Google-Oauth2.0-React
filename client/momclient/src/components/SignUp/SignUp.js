@@ -10,6 +10,7 @@ import { validateField } from '../../validation/validate';
 import { InputAdornment } from '@mui/material';
 import googleimg from '../../images/google_icon.png';
 import { useGoogleLogin } from '@react-oauth/google';
+import { Form } from "react-bootstrap";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -20,8 +21,11 @@ const SignUp = () => {
     phone: '',
     address: '',
     password: '',
-    otp: ''
+    otp: '',
+    file: null,
   });
+  const [file, setFile] = useState(null);
+  const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,6 +129,12 @@ const SignUp = () => {
     return regex.test(email);
   };
 
+    // handle profile image file 
+  const handleFileChange = (e) => {
+    //console.log(e.target.files); // Logs the selected files
+      setFile(e.target.files[0]); // Store the file selected by the user
+  };
+
   const handleSubmit = async () => {
     const fieldsToValidate = ['name', 'email', 'phone', 'password', 'address'];
 
@@ -143,11 +153,18 @@ const SignUp = () => {
     if (hasErrors) return;
 
     setIsSubmitting(true);
+
+    if (!file) {
+      setMessage('Please select a file to upload.');
+      return;
+    }
+
     setTimeout(async () => {
       try {
-        const response = await createUser(formValues);
+        const response = await createUser(formValues, file); // Pass formData and profile image to the API
         if (response.success) {
           toast.success(response.message);
+
           setTimeout(() => {
             setFormValues({
               name: '',
@@ -155,7 +172,8 @@ const SignUp = () => {
               phone: '',
               address: '',
               password: '',
-              otp: ''
+              otp: '',
+              file: null,
             });
             setActiveStep(0);
             navigate('/');
@@ -342,6 +360,18 @@ const SignUp = () => {
       case 2:
         return (
           <Box>
+      <Form.Group controlId="formFile" className="mt-4">
+      <Form.Label>Profile Photo</Form.Label>
+      <Form.Control 
+        type="file" 
+        onChange={handleFileChange} 
+        className="formControl"
+        name="profile"
+        accept=".jpg,.jpeg,.png,.pdf"
+      />
+    </Form.Group>
+    {message && <p>{message}</p>}
+            
             <TextField
               label="Password"
               type="password"

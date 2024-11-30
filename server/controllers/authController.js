@@ -150,7 +150,7 @@ const logoutController = async (req, res) => {
     }
 };
 
-/// login with google
+/// Login with google
 const loginWithGoogle = async (req, res) => {
     try{
         const {code}= req.query; 

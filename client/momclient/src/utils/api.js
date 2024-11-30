@@ -29,14 +29,41 @@ export const verifyOtp = async (email, otp) => {
 };
 
 //signup
-export const createUser = async (userData) => {
+// export const createUser = async (userData) => {
+//   try {
+//     const response = await axios.post('http://localhost:9090/api/create-employee', userData);
+//     return response.data; 
+//   } catch (error) {
+//     throw new Error(error.response?.data?.message || 'Error creating user');
+//   }
+// };
+
+export const createUser = async (userData, profile) => {
   try {
-    const response = await axios.post('http://localhost:9090/api/create-employee', userData);
-    return response.data; 
+    const formData = new FormData();
+
+    // Append other user data to the FormData
+    Object.keys(userData).forEach((key) => {
+      formData.append(key, userData[key]);
+    });
+
+    // Append profile picture to the FormData
+    if (profile) {
+      formData.append('profile', profile);
+    }
+
+    const response = await axios.post('http://localhost:9090/api/create-employee', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error creating user');
   }
 };
+
+
 
 // send otp to login
 export const loginWithOtp = async (email) => {

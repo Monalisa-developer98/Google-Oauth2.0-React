@@ -9,7 +9,10 @@ const mainRouter = require('./routes/userRoutes');
 const session = require('express-session');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:true}));  // helps to parse form-data
+
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const corsOptions = {
     origin: '*',

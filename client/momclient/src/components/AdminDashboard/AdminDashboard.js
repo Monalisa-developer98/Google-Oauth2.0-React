@@ -5,6 +5,7 @@ import './AdminDashboard.css';
 import { validateField } from '../../validation/validate';
 import { toast} from 'react-toastify';
 import { Switch } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { addEmployee, listEmployee, deactivateEmployee, activateEmployee  } from '../../utils/api';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
@@ -28,13 +29,23 @@ const AdminDashboard = () => {
   const [pageSize] = useState(2); // Number of employees per page
 
  // Fetch employees on component mount
- useEffect(() => {
+useEffect(() => {
   const fetchEmployees = async () => {
     try {
       const response = await listEmployee({ searchKey: searchQuery, page: currentPage, limit: pageSize });
-        const { employeeData, totalEmployees } = response.data || {};
-        setEmployees(employeeData || []);
-        setTotalEmployees(totalEmployees || 0);
+      const { employeeData, totalEmployees } = response.data || {};
+
+      const baseUrl = 'http://localhost:9090/';
+
+      const employeesWithFullImageUrls = employeeData.map(employee => ({
+        ...employee,
+        profilePicture: employee.profilePicture && employee.profilePicture.startsWith('https://lh3.googleusercontent.com/')
+          ? employee.profilePicture 
+          : employee.profilePicture ? `${baseUrl}${employee.profilePicture}` : null, 
+      }));
+
+      setEmployees(employeesWithFullImageUrls || []);
+      setTotalEmployees(totalEmployees || 0);
     } catch (error) {
       toast.error('Failed to load employees');
     }
@@ -42,6 +53,8 @@ const AdminDashboard = () => {
 
   fetchEmployees();
 }, [currentPage, searchQuery, pageSize]);
+
+
 
 const handlePageChange = (page) => {
   setCurrentPage(page);
@@ -298,6 +311,7 @@ const handleToggle = async (employeeId, isActive) => {
               <thead>
                 <tr>
                   <th>Employee Name</th>
+                  <th>Profile Photo</th>
                   <th>Employee ID</th>
                   <th>Designation</th>
                   <th>Department</th>
@@ -310,15 +324,28 @@ const handleToggle = async (employeeId, isActive) => {
                 employees.map((employee) => (
                   <tr key={employee.empId || employee._id}>
                     <td>{employee.name || 'N/A'}</td>
+                    <td>
+                    {employee.profilePicture ? (
+                      <img 
+                        src={employee.profilePicture} 
+                        alt="Profile" 
+                        style={{ width: '95px', height: '95px' }} 
+                      />
+                    ) : (
+                      <AccountCircleIcon 
+                        style={{ width: '95px', height: '95px', color: '#4F2CC8' }}
+                      />
+                    )}
+                    </td>
                     <td>{employee.empId || 'N/A'}</td>
                     <td>{employee.designation || 'N/A'}</td>
                     <td>{employee.department || 'N/A'}</td>
                     <td>{employee.unit || 'N/A'}</td>
                     <td><Switch
-      checked={employee.isActive}
-      onChange={() => handleToggle(employee._id, employee.isActive)}
-      color="primary"
-    /></td>
+                    checked={employee.isActive}
+                    onChange={() => handleToggle(employee._id, employee.isActive)}
+                    color="primary"
+                  /></td>
                   </tr>
                 ))
               ) : (

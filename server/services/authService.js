@@ -246,7 +246,7 @@ const logoutService = (req) => {
     });
 };
 
-// SignIn With Google
+// Login With Google
 const loginWithGoogle = async (code) => {
     try{
         const googleRes = await oauth2client.getToken(code);

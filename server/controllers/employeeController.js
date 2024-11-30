@@ -5,7 +5,11 @@ const messages = require('../constants/constMessages');
 /// create employee
 const createEmployee = async (req, res) => {
     try {
-        const result = await employeeService.createEmployee(req.body);
+        const { body, file } = req;
+        console.log('Req files---', req.file)
+        const filePath = file?.path || null;
+
+        const result = await employeeService.createEmployee(body, filePath);
 
         if (result?.emailNotVerified) {
             return Responses.failResponse(req, res, null, messages.emailNotVerified, 200);

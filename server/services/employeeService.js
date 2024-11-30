@@ -16,8 +16,8 @@ const verifyEmployee = async (empId) => {
     );
 };
 
-// create Employee
-const createEmployee = async (data) => {
+// create Employee -- SignUp
+const createEmployee = async (data, filePath) => {
   try {
       const otpRecord = await OTP.findOne({ email: data.email });
       if (!otpRecord || !otpRecord.isVerified) {
@@ -36,12 +36,13 @@ const createEmployee = async (data) => {
           phone: data.phone,
           password: hashedPassword,
           address: data.address,
+          profilePicture: filePath || null,
           isVerified: true
       };
 
       const empData = new Employee(inputData);
       const result = await empData.save();
-
+      
       return { success: true, data: result };
 
   } catch (error) {

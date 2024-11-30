@@ -35,6 +35,7 @@ const LoginOtp = () => {
           localStorage.setItem('auth-token', token);
         // Update user context here
         const { role, name, profilePicture } = result.data.data.user;
+        
         login({ token, username: name, role: role, picture: profilePicture });
         role === 'admin' ? navigate('/admin-dashboard') : role === 'user' ? navigate('/user-dashboard') : alert('Invalid role');
         } else {
@@ -50,7 +51,8 @@ const LoginOtp = () => {
   const googleLogin = useGoogleLogin({
     onSuccess: responseGoogle,
     onError: responseGoogle,
-    flow: 'auth-code'
+    flow: 'auth-code',
+    scope: 'profile email',
   });
 
 

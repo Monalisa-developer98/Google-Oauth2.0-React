@@ -4,13 +4,23 @@ const authController = require('../controllers/authController');
 const employeeController = require('../controllers/employeeController');
 const validator = require('../validators/employeeValidator');
 const Middleware = require('../middlewares/authMiddleware');
-const passport = require('passport');
-require('dotenv').config();
+
+const multer  = require('multer')
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    }
+  })
+  
+const upload = multer({ storage: storage })
 
 //signup flow
 router.post('/send-otp', authController.sendOtpToEmployee);
 router.post('/verify-otp', authController.verifyOtp);
-router.post('/create-employee', employeeController.createEmployee);
+router.post('/create-employee', upload.single('profile'), employeeController.createEmployee);
 
 //login with otp
 router.post('/login-otp', validator.loginWithOtpController, authController.loginWithOtp);
