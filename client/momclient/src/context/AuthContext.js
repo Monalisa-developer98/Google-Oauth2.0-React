@@ -5,8 +5,18 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({ username: '', role: '', picture: '' });
 
+  const baseUrl = 'http://localhost:9090/';
   const login = (userData) => {
-    setUser(userData);
+    // setUser(userData);
+
+    let pictureUrl = userData.picture;
+
+    if (userData.picture && !userData.picture.startsWith('http')) {
+      pictureUrl = `${baseUrl}${userData.picture.replace(/\\/g, '/')}`;
+    }
+  
+    // console.log('User picture URL:', pictureUrl);
+    setUser({ ...userData, picture: pictureUrl });
   };
 
   const logout = () => {

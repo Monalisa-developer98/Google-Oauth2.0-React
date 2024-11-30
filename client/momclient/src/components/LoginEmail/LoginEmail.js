@@ -92,8 +92,9 @@ const LoginEmail = () => {
         if (response.success) {
           toast.success(response.message);
 
-          const { token, userData, profilePicture } = response.data; // Extract token and user data from response
-          login({ token, username: userData.name, role: userData.role, picture: profilePicture });
+          const { token, userData, profilePicture } = response.data; // Extract token, profilePicture and user-data from response
+          // console.log('User Data:', userData);
+          login({ token, username: userData.name, role: userData.role, picture: userData.profilePicture || profilePicture });
                   
             if (userData.role === 'admin') {
               navigate('/admin-dashboard');

@@ -6,7 +6,6 @@ const messages = require('../constants/constMessages');
 const createEmployee = async (req, res) => {
     try {
         const { body, file } = req;
-        console.log('Req files---', req.file)
         const filePath = file?.path || null;
 
         const result = await employeeService.createEmployee(body, filePath);
