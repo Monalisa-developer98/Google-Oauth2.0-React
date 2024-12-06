@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import './LoginOtp.css';
 import loginimage from '../../images/Secure login-pana.png';
-import googleimg from '../../images/google_icon.png';
+// import googleimg from '../../images/google_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginWithOtp } from '../../utils/api';
 import { validateField } from '../../validation/validate';
 import { toast } from 'react-toastify';
 import InputAdornment from '@mui/material/InputAdornment';
 import EmailIcon from '@mui/icons-material/Email';
-import { useGoogleLogin } from '@react-oauth/google';
+// import { useGoogleLogin, GoogleLogin  } from '@react-oauth/google';
+import { GoogleLogin  } from '@react-oauth/google';
 import {googleAuth} from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 
@@ -49,12 +50,12 @@ const LoginOtp = () => {
     }
   };
   
-  const googleLogin = useGoogleLogin({
-    onSuccess: responseGoogle,
-    onError: responseGoogle,
-    flow: 'auth-code',
-    scope: 'profile email',
-  });
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: responseGoogle,
+  //   onError: responseGoogle,
+  //   flow: 'auth-code',
+  //   scope: 'profile email',
+  // });
 
 
   // Function to set the touched state when a field is focused
@@ -107,9 +108,6 @@ const LoginOtp = () => {
   return (
       <div className="form-container d-flex gap-4">
         <form className="login-form">
-        {/* <div className="logo">
-        <img src={logoimage} alt="Logo" />
-        </div> */}
           <div className="form-text">
             <h2>Welcome to Meeting Plus</h2>
             <p className="heading-text">
@@ -155,8 +153,14 @@ const LoginOtp = () => {
           Don't have an account ? <Link to="/signup">Sign Up</Link>
           </div>
           <div className="or or-2">Or continue with</div>
-          <button type="button" className="google-signin-btn" onClick={googleLogin}>
-            <img src={googleimg} alt="Logo" />Sign In with Google</button>
+          {/* <button type="button" className="google-signin-btn" onClick={googleLogin}>
+            <img src={googleimg} alt="Logo" />Sign In with Google</button> */}
+            <GoogleLogin
+          onSuccess={responseGoogle}
+          onError={responseGoogle}
+          theme="filled_blue"  
+          text="Sign in with Google"
+        />
         </form>
 
         <div className="login-image">
