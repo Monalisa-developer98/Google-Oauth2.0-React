@@ -167,7 +167,7 @@ const verifyUserOTP = async (email, otp) => {
 
 // sign in with password
 const signInByPassword = async (email, password) => {
-    const userData = await Employee.findOne({ email, isActive: true });
+    const userData = await Employee.findOne({ email });
     if (!userData) {
       return false;
     }
@@ -188,7 +188,7 @@ const signInByPassword = async (email, password) => {
         incorrectPassword: true,
       };
     }
-    const token = await authMiddleware.generateUserToken({userId: userData._id, name: userData.name});
+    const token = await authMiddleware.generateUserToken({userId: userData._id});
     return { token, userData};
 };
 
@@ -280,7 +280,7 @@ const SignUpWithGoogle = async (code) => {
             `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
         )
 
-        console.log('Google user info:', userRes.data);
+        // console.log('Google user info:', userRes.data);
         const {email} = userRes.data;  // Extract email from Google response
         let user = await Employee.findOne({email, isActive: true}); 
         if (user){

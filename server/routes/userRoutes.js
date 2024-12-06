@@ -49,4 +49,10 @@ router.get('/google', authController.loginWithGoogle);
 //signup with google
 router.post('/google', authController.SignUpWithGoogle);
 
+// profile update
+router.post('/update-profile/:empId', upload.single('profile'), employeeController.updateProfileController);
+
+// view single user
+router.get('/viewEmployee/:id', Middleware.verifyToken, employeeController.viewSingleEmployee)
+
 module.exports = router;

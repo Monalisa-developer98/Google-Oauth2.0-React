@@ -92,9 +92,10 @@ const LoginEmail = () => {
         if (response.success) {
           toast.success(response.message);
 
-          const { token, userData, profilePicture } = response.data; // Extract token, profilePicture and user-data from response
-          // console.log('User Data:', userData);
-          login({ token, username: userData.name, role: userData.role, picture: userData.profilePicture || profilePicture });
+          const { token, userData} = response.data; // Extract token, profilePicture and user-data from response
+          localStorage.setItem('auth-token', token);
+          //  console.log('User Data:', userData._id);
+          login({ id:userData._id, token: token });
                   
             if (userData.role === 'admin') {
               navigate('/admin-dashboard');

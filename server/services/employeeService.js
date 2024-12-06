@@ -141,6 +141,40 @@ const deactivateEmployee = async (empId) => {
   return result;
 };
 
+// update profile
+const updateProfile = async (empId, data, filePath) => {
+    try {
+        const objectId = new ObjectId(empId);
+        const currentData = await Employee.findOne({ _id: objectId });
+        if (!currentData) {
+            return null;
+        }
+        const updateData = { ...data };
+        if (filePath) {
+            updateData.profilePicture = filePath;
+        }
+
+        const result = await Employee.findOneAndUpdate(
+            { _id: objectId },
+            { $set: updateData },
+            { new: true }
+        );
+
+        return result;
+
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        return { error: true, message: error.message };
+    }
+};
+
+//get employee by id
+const viewSingleEmployee = async (id) => {
+    const Id = new ObjectId(id);
+    const singleEmployeDetails = await Employee.findById({ _id: Id });
+    return singleEmployeDetails;
+}
+
 
 module.exports = {
     verifyEmployee,
@@ -148,5 +182,7 @@ module.exports = {
     addEmployee,
     listEmployee,
     activateEmployee,
-    deactivateEmployee
+    deactivateEmployee,
+    updateProfile,
+    viewSingleEmployee
 }

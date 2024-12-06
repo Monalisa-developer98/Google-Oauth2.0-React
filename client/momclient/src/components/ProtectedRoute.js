@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
 
   // Check if user is authenticated
-  if (!user.username) {
+  if (!user.token) {
     return <Navigate to="/" replace />;
   }
 

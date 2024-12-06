@@ -17,7 +17,7 @@ const emailNotVerified = 'Your Email is not verified. Please verify your Email.'
 const creationFailed = 'Creation Failed'
 const maxverifyReached = 'Maximum verification requests reached. Please try after 10 minutes'
 const incorrectPassword = 'Incorrect Password'
-const invalidUser = 'User is not valid user!'
+const invalidUser = 'User is not valid! Your account has been deactivated.'
 const signInSuccess = 'Login successful!'
 const passwordMismatch = 'Password and Confirm Password does not match'
 const passResetSuccess = 'Password updated successfully'
@@ -28,6 +28,8 @@ const activateSuccess = 'Acivated Successfully'
 const deactivateSuccess = 'Deactivated Successfully'
 const googleAuthFailed = 'Authorization code is missing'
 const noPasswordSet = 'Your Password is empty. Please set a password.'
+const noDataProvided = 'No data provided'
+const updateProfile = 'Profile updated successfully'
 
 module.exports = {
     userNotFound,
@@ -55,5 +57,7 @@ module.exports = {
     activateSuccess,
     deactivateSuccess,
     googleAuthFailed,
-    noPasswordSet
+    noPasswordSet,
+    noDataProvided,
+    updateProfile
 }

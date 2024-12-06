@@ -16,36 +16,37 @@ const generateUserToken = async (data) => {
 };
 
 // verify token for user
-// const verifyUserToken = async (req, res, next) => {
-//   try {
-//     let token = req.headers.authorization;
-//     console.log("token-->", token);
-//     if (token.startsWith("Bearer ")) {
-//       token = token.substring(7, token.length);
-//     }
-//     const decoded = jwt.verify(token, process.env.JWT_USER_SECRET);
-//     console.log(decoded);
-//     const userId = decoded.userId;
-//     const isActiveUser = await employeeService.verifyEmployee(userId);
-//     console.log("isActiveUser------", isActiveUser);
-//     if (isActiveUser) {
-//       req.userId = userId;
-//       req.userData = isActiveUser;
-//       next();
-//     } else {
-//       return Responses.failResponse(
-//         req,
-//         res,
-//         { isInValidUser: true },
-//         messages.invalidUser,
-//         200
-//       );
-//     }
-//   } catch (error) {
-//     console.log("Errorrr", error);
-//     return Responses.failResponse(req, res, null, messages.invalidToken, 200);
-//   }
-// };
+const verifyToken = async (req, res, next) => {
+  try {
+    let token = req.headers.authorization;
+    console.log("token-->", token);
+    if (token.startsWith("Bearer ")) {
+      token = token.substring(7, token.length);
+    }
+    const decoded = jwt.verify(token, process.env.JWT_USER_SECRET);
+    console.log('Decoded-----',decoded);
+    const userId = decoded.userId;
+    const isActiveUser = await employeeService.verifyEmployee(userId);
+    console.log("isActiveUser------", isActiveUser);
+    if (isActiveUser) {
+      req.userId = userId;
+      req.userData = isActiveUser;
+      // console.log("UserDetails------", isActiveUser);
+      next();
+    } else {
+      return Responses.failResponse(
+        req,
+        res,
+        { isInValidUser: true },
+        messages.invalidUser,
+        200
+      );
+    }
+  } catch (error) {
+    console.log("Errorrr", error);
+    return Responses.failResponse(req, res, null, messages.invalidToken, 200);
+  }
+};
 
 
 const verifyUserToken = async (req, res, next) => {
@@ -82,5 +83,6 @@ const verifyUserToken = async (req, res, next) => {
 
 module.exports = {
   generateUserToken,
-  verifyUserToken
+  verifyUserToken,
+  verifyToken
 };

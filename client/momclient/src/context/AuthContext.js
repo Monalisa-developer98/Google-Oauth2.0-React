@@ -3,24 +3,13 @@ import React, { createContext, useState, useContext } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({ username: '', role: '', picture: '' });
-
-  const baseUrl = 'http://localhost:9090/';
+  const [user, setUser] = useState({ id: '', token: '' });
   const login = (userData) => {
-    // setUser(userData);
-
-    let pictureUrl = userData.picture;
-
-    if (userData.picture && !userData.picture.startsWith('http')) {
-      pictureUrl = `${baseUrl}${userData.picture.replace(/\\/g, '/')}`;
-    }
-  
-    // console.log('User picture URL:', pictureUrl);
-    setUser({ ...userData, picture: pictureUrl });
+    setUser(userData);
   };
 
   const logout = () => {
-    setUser({ username: '', role: '', picture: '' });
+    setUser({ id: ''});
   };
 
   return (

@@ -86,9 +86,48 @@ const deactivateEmployee = async (req, res) => {
     }
 };
 
+// update profile
+const updateProfileController = async (req, res) => {
+    try {
+
+        const { empId } = req.params; 
+       
+        const { body, file } = req;
+        const filePath = file?.path || null;
+
+        if (!body || Object.keys(body).length === 0) {
+            return Responses.failResponse(req, res, null, messages.noDataProvided, 404);
+        }
+        const updatedProfile = await employeeService.updateProfile(empId, body, filePath);
+
+        if (!updatedProfile) {
+            return Responses.failResponse(req, res, null, messages.recordsNotFound, 404);
+        }
+        return Responses.successResponse(req, res, updatedProfile, messages.updateProfile, 200);
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        return Responses.errorResponse(req, res, err);
+    }
+};
+
+// viewSingleEmployee
+const viewSingleEmployee = async (req, res) => {
+    try{
+        const result = await employeeService.viewSingleEmployee(req.params.id);
+        // console.log("view SingleEmployee Result", result);
+        if (!result){
+            return Responses.failResponse(req, res, null, messages.recordsNotFound, 200);
+        }
+        return Responses.successResponse(req, res, result, messages.recordsFound, 200);
+    } catch (error){
+        console.log(error);
+        return Responses.errorResponse(req, res, error);
+    }
+}
 
 module.exports = {
     createEmployee,
     addEmployee,
-    listEmployee, activateEmployee, deactivateEmployee
+    listEmployee, activateEmployee, deactivateEmployee, updateProfileController,
+    viewSingleEmployee
 }

@@ -34,10 +34,10 @@ const LoginOtp = () => {
           const token = result.data.data.token;
           localStorage.setItem('auth-token', token);
         // Update user context here
-        const { role, name, profilePicture } = result.data.data.user;
+        const { role, _id } = result.data.data.user;
         // console.log('User Profile Picture-----:', profilePicture);
         
-        login({ token, username: name, role: role, picture: profilePicture });
+        login({ id: _id });
         role === 'admin' ? navigate('/admin-dashboard') : role === 'user' ? navigate('/user-dashboard') : alert('Invalid role');
         } else {
           toast.error(result.data.message || 'User not found');

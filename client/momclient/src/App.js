@@ -57,7 +57,7 @@ function App() {
         element={ <ProtectedRoute> <AdminDashboard /> </ProtectedRoute>}
         />
         <Route path="/user-dashboard" 
-        element={<ProtectedRoute> <UserDashboard /> </ProtectedRoute>} 
+        element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} 
         />
         <Route path="/user-login" element={<LoginEmail />} />
         <Route path="/reset-password" element={<ForgotPassword />} />

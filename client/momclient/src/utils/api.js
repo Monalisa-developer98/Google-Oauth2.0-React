@@ -41,8 +41,6 @@ export const verifyOtp = async (email, otp) => {
 export const createUser = async (userData, profile) => {
   try {
     const formData = new FormData();
-
-    // Append other user data to the FormData
     Object.keys(userData).forEach((key) => {
       formData.append(key, userData[key]);
     });
@@ -154,5 +152,50 @@ export const deactivateEmployee = async (id) => {
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error deactivating employee');
+  }
+};
+
+// fetch employee details by id
+export const fetchEmployeeById = async(id) => {
+  try{
+    const token = localStorage.getItem('auth-token');
+    if (!token){
+      throw new Error('No auth Token Found');
+    }
+
+    const response = await axios.get(`http://localhost:9090/api/viewEmployee/${id}`,{
+      headers: {
+        'Authorization': `${token}`
+      }
+    });
+    return response.data;
+  } catch (err) {
+    console.error('Error fetching employee details', err);
+    throw err;
+  }
+}
+
+
+// update employee details
+export const updateProfile = async (empId, updatedData, profile) => {
+  try {
+    const formData = new FormData();
+
+    Object.keys(updatedData).forEach((key) => {
+      formData.append(key, updatedData[key]);
+    });
+
+    if (profile) {
+      formData.append('profile', profile);
+    }
+
+    const response = await axios.post(`http://localhost:9090/api/update-profile/${empId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error updating profile');
   }
 };
