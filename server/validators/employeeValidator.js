@@ -141,10 +141,52 @@ const resetPasswordValidator = async (req, res, next) => {
 };
 
 
+//csv user validator
+const csvUserValidator = async (req, res, next) => {
+    try {
+        const bodySchema = Joi.object({
+            name: Joi.string()
+                .pattern(/^[a-zA-Z\s]+$/)
+                .min(4)
+                .required()
+                .messages({
+                    'string.pattern.base': 'Name must only contain letters and spaces.',
+                    'string.empty': 'Name is required.',
+                    'any.required': 'Name is required.',
+                    'string.min': 'Name must be at least {#limit} characters long.'
+                }),
+            email: Joi.string().email().required()
+                .messages({
+                    'string.email': 'Email must be a valid email address.',
+                    'string.empty': 'Email is required.',
+                    'any.required': 'Email is required.',
+                }),
+            phone: Joi.string()
+                .pattern(/^[0-9]{10}$/) 
+                .length(10)            
+                .required()
+                .messages({
+                    'string.pattern.base': 'Phone number must only contain exactly 10 digits.',
+                    'string.empty': 'Phone number is required.',
+                    'any.required': 'Phone number is required.',
+                    'string.length': 'Phone number must be exactly {#limit} digits long.'
+                }),
+        });
+
+        await bodySchema.validateAsync(req.body, { abortEarly: false });
+        next();
+    } catch (error) {
+        const errorMessages = error.details.map(err => err.message).join(', ');
+        console.error(errorMessages);
+        return Responses.errorResponse(req, res, errorMessages, 400);
+    }
+};
+
 module.exports = {
     createUserValidator,
     loginWithOtpController,
     verifyUserOTP,
     signInByPasswordValidator,
-    resetPasswordValidator
+    resetPasswordValidator,
+    csvUserValidator
 }

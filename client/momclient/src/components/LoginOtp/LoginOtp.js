@@ -155,12 +155,12 @@ const LoginOtp = () => {
           <div className="or or-2">Or continue with</div>
           {/* <button type="button" className="google-signin-btn" onClick={googleLogin}>
             <img src={googleimg} alt="Logo" />Sign In with Google</button> */}
-            <GoogleLogin
-          onSuccess={responseGoogle}
-          onError={responseGoogle}
-          theme="filled_blue"  
-          text="Sign in with Google"
-        />
+          <GoogleLogin
+            onSuccess={responseGoogle}
+            onError={responseGoogle}
+            theme="filled_blue"  
+            text="Sign in with Google"
+          />
         </form>
 
         <div className="login-image">

@@ -2,6 +2,9 @@ const Employee = require("../models/employeeModel");
 const { generateHashPassword } = require('../helpers/commonHelper');
 const OTP = require('../models/otpModel');
 const ObjectId = require("mongoose").Types.ObjectId;
+const xlsx = require('xlsx');
+const path = require('path');
+const validator = require('validator');
 
 // verify active user
 const verifyEmployee = async (empId) => {
@@ -175,6 +178,74 @@ const viewSingleEmployee = async (id) => {
     return singleEmployeDetails;
 }
 
+// csv file upload
+const processXlsx = async (filePath) => {
+    const results = [];        
+    const skippedRows = [];     
+    const processedEmails = new Set();
+    
+    try {
+        const workbook = xlsx.readFile(filePath);  
+        const sheetName = workbook.SheetNames[0]; 
+        const sheet = workbook.Sheets[sheetName];
+        const data = xlsx.utils.sheet_to_json(sheet);  // Convert the sheet to JSON format
+
+        for (const row of data) {
+            const email = row.email;
+
+            if (!validator.isEmail(email)) {
+                row.reason = "Invalid email format";  // Add reason for skipping
+                skippedRows.push(row);  
+                continue; 
+            }
+
+            if (!processedEmails.has(email)) {
+                processedEmails.add(email);            
+                const existingEmployee = await Employee.findOne({ email });
+
+                if (existingEmployee) {
+                    row.reason = "Duplicate email";  // Add reason for skipping
+                    skippedRows.push(row);
+                } else {
+                    results.push(row);
+                }
+            } else {
+                // If email is already processed, it's a duplicate
+                row.reason = "Duplicate email";  
+                skippedRows.push(row);  // Push duplicate rows to skippedRows
+            }
+        }
+
+        // insert valid rows into the database
+        if (results.length > 0) {
+            await Employee.insertMany(results, { ordered: false });
+        }
+
+        // save skipped rows to a new sheet
+        if (skippedRows.length > 0) {
+            const skippedSheet = xlsx.utils.json_to_sheet(skippedRows);
+            const newWorkbook = xlsx.utils.book_new();
+            xlsx.utils.book_append_sheet(newWorkbook, skippedSheet, "Skipped Rows");
+
+            const timestamp = new Date().toISOString().replace(/[:.-]/g, '_');
+            const skippedFilePath = path.resolve(__dirname, '../uploads', `skipped_rows_${timestamp}.xlsx`);
+            xlsx.writeFile(newWorkbook, skippedFilePath); // Save the new sheet to a file
+
+            return {
+                inserted: results,
+                skipped: skippedRows,
+                skippedFilePath
+            };
+        }
+        return {
+            inserted: results,
+            skipped: skippedRows 
+        };
+    } catch (error) {
+        throw new Error(`Error reading or processing the Excel file: ${error.message}`);
+    }
+};
+
 
 module.exports = {
     verifyEmployee,
@@ -184,5 +255,6 @@ module.exports = {
     activateEmployee,
     deactivateEmployee,
     updateProfile,
-    viewSingleEmployee
+    viewSingleEmployee,
+    processXlsx
 }

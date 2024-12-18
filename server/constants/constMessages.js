@@ -30,6 +30,8 @@ const googleAuthFailed = 'Authorization code is missing'
 const noPasswordSet = 'Your Password is empty. Please set a password.'
 const noDataProvided = 'No data provided'
 const updateProfile = 'Profile updated successfully'
+const updateDatafail = 'Failed to import Data'
+const addedSuccess = 'Import Success'
 
 module.exports = {
     userNotFound,
@@ -59,5 +61,7 @@ module.exports = {
     googleAuthFailed,
     noPasswordSet,
     noDataProvided,
-    updateProfile
+    updateProfile,
+    updateDatafail,
+    addedSuccess
 }

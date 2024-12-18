@@ -36,7 +36,7 @@ const Navbar = () => {
         if (user && user.id) {
           console.log('Fetching employee details for ID:', user.id); 
           const data = await fetchEmployeeById(user.id);
-          console.log('Fetched employee data:', data); // Log the data returned from API
+          //console.log('Fetched employee data:', data); // Log the data returned from API
           // console.log('Single employee data:', data.data);
           if (data?.error || data?.success === false) {
             toast.error('Your account has been deactivated. Please contact your administrator.');

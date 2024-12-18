@@ -20,7 +20,26 @@ const upload = multer({ storage: storage })
 //signup flow
 router.post('/send-otp', authController.sendOtpToEmployee);
 router.post('/verify-otp', authController.verifyOtp);
-router.post('/create-employee', upload.single('profile'), employeeController.createEmployee);
+router.post('/create-employee', 
+  upload.single('profile'),
+  employeeController.createEmployee
+);
+
+// csv-file upload
+const uploadfile = multer({
+  dest:"uploads/",
+  fileFilter:(req,file,cb)=>{
+      if(file.mimetype === 'text/csv'){
+          cb(null,true)
+      }else{
+          cb(new Error('Only CSV files are allowed'),false)
+      }
+  },
+  limits:{fileSize:2*1024*1024}
+})
+
+// Define routes
+router.post('/upload-csv',uploadfile.single('file'), employeeController.uploadCsv);
 
 //login with otp
 router.post('/login-otp', validator.loginWithOtpController, authController.loginWithOtp);

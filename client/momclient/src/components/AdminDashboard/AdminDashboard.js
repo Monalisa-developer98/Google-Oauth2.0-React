@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Box, CssBaseline, TextField, Button, Select, MenuItem, InputLabel, FormControl, Typography, Grid } from '@mui/material';
 import Navbar from '../Navbar/Navbar';
+import CsvFileUpload from '../CsvFileUpload/CsvFileUpload'
 import './AdminDashboard.css';
 import { validateField } from '../../validation/validate';
 import { toast} from 'react-toastify';
@@ -164,6 +165,7 @@ const handleToggle = async (employeeId, isActive) => {
           <Typography variant="h4" gutterBottom>
             Add Employee
           </Typography>
+          <CsvFileUpload />
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>

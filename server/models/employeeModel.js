@@ -16,7 +16,7 @@ const employeeSchema = new mongoose.Schema({
         },
         required: true,
         default: null,
-        unique: true,
+        // unique: true,
         index: true 
     },
     empId: { type: String, default: null},

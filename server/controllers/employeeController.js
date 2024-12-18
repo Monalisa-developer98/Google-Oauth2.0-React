@@ -1,6 +1,7 @@
 const employeeService = require('../services/employeeService');
 const Responses = require('../helpers/response');
 const messages = require('../constants/constMessages');
+const path = require('path');
 
 /// create employee
 const createEmployee = async (req, res) => {
@@ -125,9 +126,45 @@ const viewSingleEmployee = async (req, res) => {
     }
 }
 
+// csv file upload
+const uploadCsv = async (req, res) => {
+    try {
+        const file = req.file;
+        console.log("file--------", file);
+
+        if (!file) {
+            return Responses.failResponse(req, res, null, messages.updateDatafail, 404);
+        }
+
+        const filePath = path.resolve(__dirname, '../uploads', file.filename);
+        console.log("filePath--------", filePath);
+
+        const results = await employeeService.processXlsx(filePath);
+        console.log("results--------", results);
+
+        // If skipped rows file exists, include its download URL
+        const response = {
+            inserted: results.inserted,
+            skipped: results.skipped,
+        };
+
+        if (results.skippedFilePath) {
+            response.skippedFileDownloadUrl = `/uploads/skipped_rows.xlsx`;
+        }
+
+        // Return success response
+        Responses.successResponse(req, res, results, messages.addedSuccess, 200);
+        
+    } catch (error) {
+        console.log("Error in uploadCsv:", error);
+        return Responses.errorResponse(req, res, messages.genericError, 500);
+    }
+};
+
 module.exports = {
     createEmployee,
     addEmployee,
     listEmployee, activateEmployee, deactivateEmployee, updateProfileController,
-    viewSingleEmployee
+    viewSingleEmployee,
+    uploadCsv
 }

@@ -199,3 +199,23 @@ export const updateProfile = async (empId, updatedData, profile) => {
     throw new Error(error.response?.data?.message || 'Error updating profile');
   }
 };
+
+// import employees by csv file
+export const importFromCsv = async(file) => {
+  const apiurl = 'http://localhost:9090/api/upload-csv';
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    }
+  }
+  try {
+    const response = await axios.post(apiurl, formData, config);
+    return response.data; 
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error uploading file');
+  }
+}
+
